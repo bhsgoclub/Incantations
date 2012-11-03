@@ -1,5 +1,5 @@
 package me.bhsgoclub.incantations;
-
+//DRTSHOCK IS AWESOME
 import java.io.File;
 import java.io.IOException;
 import java.util.Hashtable;
