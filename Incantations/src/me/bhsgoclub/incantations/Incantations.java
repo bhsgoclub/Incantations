@@ -37,8 +37,9 @@ public class Incantations extends JavaPlugin
     private final IncantationsBlockListener blockListener = new IncantationsBlockListener(this);
     private final IncantationsEntityListener entityListener = new IncantationsEntityListener(this);
     
-    public PermissionHandler permissions;
+    /*public PermissionHandler permissions;
     public Boolean usePermissions = false;
+    NOT NEEDED*/
         
     /*
     public enum spellNames
@@ -75,8 +76,6 @@ public class Incantations extends JavaPlugin
         
         // Start watcher thread
         getServer().getScheduler().scheduleSyncRepeatingTask(this, watcher, 20, 5);
-        
-        setupPermissions();
         
         log.info("[Incantations] v" + getDescription().getVersion() + " active.");
     }
@@ -126,25 +125,25 @@ public class Incantations extends JavaPlugin
     	config = new Configuration(cfgFile);
     	if (isNew)
     	{
-    		config.setProperty("General.SpellAnounceLevel", 1);
-    		config.setProperty("General.SpellRange", 50);
-    		config.setProperty("General.SuperCommand", "magna");
-    		config.setProperty("General.CastItem", 280);
+    		this.getConfig().set("General.SpellAnounceLevel", 1);
+    		this.getConfig().set("General.SpellRange", 50);
+    		this.getConfig().set("General.SuperCommand", "magna");
+    		this.getConfig().set("General.CastItem", 280);
     		
-    		config.setProperty("Reagents.RegularIsDye", false);
-    		config.setProperty("Reagents.Regular", 331);
-    		config.setProperty("Reagents.MasterIsDye", true);
-    		config.setProperty("Reagents.Master", 4);
-    		config.setProperty("Reagents.TransmuteCost", 16);
-    		config.setProperty("Reagents.Level1", 1);
-    		config.setProperty("Reagents.Level2", 3);
-    		config.setProperty("Reagents.Level3", 5);
+    		this.getConfig().set("Reagents.RegularIsDye", false);
+    		this.getConfig().set("Reagents.Regular", 331);
+    		this.getConfig().set("Reagents.MasterIsDye", true);
+    		this.getConfig().set("Reagents.Master", 4);
+    		this.getConfig().set("Reagents.TransmuteCost", 16);
+    		this.getConfig().set("Reagents.Level1", 1);
+    		this.getConfig().set("Reagents.Level2", 3);
+    		this.getConfig().set("Reagents.Level3", 5);
     		
-    		config.setProperty("Spellbook.Enabled", true);
-    		config.setProperty("Spellbook.InscriptionCommand", "scripto");
-    		config.setProperty("Spellbook.WriteReagentIsDye", true);
-    		config.setProperty("Spellbook.WriteReagent", 4);
-    		config.setProperty("Spellbook.Cooldown", 5);
+    		this.getConfig().set("Spellbook.Enabled", true);
+    		this.getConfig().set("Spellbook.InscriptionCommand", "scripto");
+    		this.getConfig().set("Spellbook.WriteReagentIsDye", true);
+    		this.getConfig().set("Spellbook.WriteReagent", 4);
+    		this.getConfig().set("Spellbook.Cooldown", 5);
     		
     		config.save();
     	}
