@@ -2,7 +2,9 @@ package me.bhsgoclub.incantations;
 
 import org.bukkit.block.Block;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockListener;
+import org.bukkit.event.Listener;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 
 public class IncantationsBlockListener implements Listener
 {
