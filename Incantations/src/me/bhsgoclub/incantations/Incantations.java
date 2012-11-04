@@ -1,6 +1,4 @@
 package me.bhsgoclub.incantations;
-//DRTSHOCK IS AWESOME
-//This is a test of the im amazing system...yep it works...and im amazing XD
 import java.io.File;
 import java.io.IOException;
 import java.util.Hashtable;

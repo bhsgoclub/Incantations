@@ -4,7 +4,7 @@ import org.bukkit.block.Block;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockListener;
 
-public class IncantationsBlockListener extends BlockListener
+public class IncantationsBlockListener implements Listener
 {
 	private Incantations plugin;
 	

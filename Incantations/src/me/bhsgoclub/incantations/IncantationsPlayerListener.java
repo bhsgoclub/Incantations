@@ -34,7 +34,7 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.material.Dye;
 import org.bukkit.util.Vector;
 
-public class IncantationsPlayerListener extends PlayerListener
+public class IncantationsPlayerListener implements Listener
 {
     private Incantations plugin;
     

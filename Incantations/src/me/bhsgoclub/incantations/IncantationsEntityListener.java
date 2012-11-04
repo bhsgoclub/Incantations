@@ -4,7 +4,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityListener;
 
-public class IncantationsEntityListener extends EntityListener
+public class IncantationsEntityListener implements Listener
 {
 	private Incantations plugin;
 
