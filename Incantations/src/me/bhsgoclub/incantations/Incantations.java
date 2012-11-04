@@ -96,7 +96,7 @@ public class Incantations extends JavaPlugin
         log.info("[Incantations] v" + getDescription().getVersion() + " disabled.");
     }
     
-    private void setupPermissions()
+    /*private void setupPermissions()
     {
         if (permissions != null)
             return;
@@ -112,7 +112,7 @@ public class Incantations extends JavaPlugin
         permissions = ((Permissions) permissionsPlugin).getHandler();
         usePermissions = true;
         log.info("[Incantations] Using " + ((Permissions)permissionsPlugin).getDescription().getFullName());
-    }
+    } NO NEED FOR THIS ANYMORE */
     
     private void parseConfigs()
     {

@@ -215,7 +215,7 @@ public class IncantationsPlayerListener implements Listener
         String nodeName = plugin.spellLookup.get(message);
         if (nodeName != null)
         {
-			if (plugin.usePermissions && !plugin.permissions.has(player, "incantations.spells." + nodeName.toLowerCase()))
+			if (player.hasPermission("incantations.spells."))
 			{
 				player.sendMessage("You can't cast that spell.");
 			}
@@ -385,7 +385,7 @@ public class IncantationsPlayerListener implements Listener
         else if (plugin.config.getBoolean("Spellbook.Enabled", true)
         		&& message.length() > writeCmd.length() && message.substring(0, writeCmd.length() + 1).toLowerCase().equals(writeCmd + " "))
         {
-        	if (plugin.usePermissions && !plugin.permissions.has(player, "incantations.spellbook"))
+        	if (!player.hasPermission("incantations.spellbook"))
 			{
 				player.sendMessage("You can't use a spellbook.");
 			}
@@ -1145,7 +1145,7 @@ public class IncantationsPlayerListener implements Listener
 
     private void replenish(Player player, int strength)
     {
-    	if (!plugin.usePermissions && !player.isOp())
+    	if (!player.isOp())
     		return;
     	
         int radius = 7 * strength;
