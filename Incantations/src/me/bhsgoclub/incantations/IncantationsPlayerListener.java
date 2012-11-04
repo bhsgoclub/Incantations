@@ -43,6 +43,7 @@ public class IncantationsPlayerListener implements Listener
         plugin = instance;
     }
 
+    @EventHandler
     public void onPlayerMove(PlayerMoveEvent event)
     {
     	Player player = event.getPlayer();
@@ -137,6 +138,7 @@ public class IncantationsPlayerListener implements Listener
     	
     }
     
+    @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event)
     {
     	Player player = event.getPlayer();
@@ -146,12 +148,14 @@ public class IncantationsPlayerListener implements Listener
     	plugin.spellbookCollection.put(player, spellbook);
     }
     
+    @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event)
     {
     	plugin.watcher.removePlayer(event.getPlayer());
     	plugin.spellbookCollection.remove(event.getPlayer());
     }
   
+    @EventHandler
     public void onPlayerChat(PlayerChatEvent event)
     {
     	Player player = event.getPlayer();

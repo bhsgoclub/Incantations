@@ -13,6 +13,7 @@ public class IncantationsEntityListener implements Listener
         plugin = instance;
     }
 
+    @EventHandler
     public void onEntityDamage(EntityDamageEvent event)
     {
         if (event.getEntity() instanceof Player)

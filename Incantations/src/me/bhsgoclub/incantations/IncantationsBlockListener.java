@@ -13,6 +13,7 @@ public class IncantationsBlockListener implements Listener
 		plugin = instance;
 	}
 	
+	@EventHandler
 	public void onBlockBreak(BlockBreakEvent event)
   	{
 		Block block = event.getBlock();
