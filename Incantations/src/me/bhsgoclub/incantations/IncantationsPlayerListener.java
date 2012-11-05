@@ -15,8 +15,8 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
-import org.bukkit.entity.CreatureType;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Fireball;
 import org.bukkit.entity.Giant;
 import org.bukkit.entity.HumanEntity;
@@ -27,7 +27,7 @@ import org.bukkit.entity.Slime;
 import org.bukkit.entity.Spider;
 import org.bukkit.entity.Wolf;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.player.PlayerChatEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.Listener;
@@ -162,7 +162,7 @@ public class IncantationsPlayerListener implements Listener
     }
   
     @EventHandler
-    public void onPlayerChat(PlayerChatEvent event)
+    public void onPlayerChat(AsyncPlayerChatEvent event)
     {
     	Player player = event.getPlayer();
     	if (plugin.watcher.getTicks(player, "Silence") > 0)
@@ -885,7 +885,8 @@ public class IncantationsPlayerListener implements Listener
     	
     }
     */
-    private void fireball(Player player, int strength)
+    @SuppressWarnings("deprecation")
+	private void fireball(Player player, int strength)
     {
     	Location location = player.getLocation();
         Location target = location.add(location.getDirection().normalize().multiply(2).toLocation(player.getWorld(), location.getYaw(), location.getPitch())).add(0.0D, 1.0D, 0.0D);
@@ -893,11 +894,11 @@ public class IncantationsPlayerListener implements Listener
     	switch (strength)
     	{
     		case 1:
-    			player.throwEgg();
+    			player.launchProjectile(Egg.class); //What it should be but not sure how to make that work
     			player.sendMessage("You fumble and throw an egg.");
     			break;
     		case 2:
-    			player.throwSnowball();
+    			player.launchProjectile(Snowball.class); //What it should be but not sure how to make that work
     			player.sendMessage("You strain yourself, but you only manage to throw a snowball.");
     			break;
     		case 3:
@@ -929,23 +930,23 @@ public class IncantationsPlayerListener implements Listener
                 if (entity instanceof Wolf && ((Wolf)entity).isTamed())
                 	return;
                 
-                CreatureType[] creatures = { CreatureType.CHICKEN, CreatureType.COW, CreatureType.SHEEP, CreatureType.SQUID, CreatureType.WOLF, CreatureType.SLIME };
-                CreatureType[] monsters = { CreatureType.CREEPER, CreatureType.SKELETON, CreatureType.SLIME, CreatureType.SPIDER, CreatureType.PIG_ZOMBIE, CreatureType.ZOMBIE, CreatureType.WOLF }; 
+                EntityType[] creatures = { EntityType.CHICKEN, EntityType.COW, EntityType.SHEEP, EntityType.SQUID,EntityType.WOLF, EntityType.SLIME };
+                EntityType[] monsters = { EntityType.CREEPER, EntityType.SKELETON, EntityType.SLIME, EntityType.SPIDER, EntityType.PIG_ZOMBIE, EntityType.ZOMBIE, EntityType.WOLF }; 
                 
-                CreatureType creature;
+                EntityType creature;
                 double chance = Math.random();
                 Boolean passive = false;
                 if (chance < 0.01d) // 1%
                 {
                 	// You fucked up now..
                 	// lol -drt
-	                creature = CreatureType.GIANT;
+	                creature = EntityType.GIANT;
 	                player.sendMessage("You completely botch the spell!");
                 }
                 else if (chance < 0.02d) // 1%
                 {
                 	// ...but this might be even worse.
-                	creature = CreatureType.GHAST;
+                	creature = EntityType.GHAST;
                 	player.sendMessage("You completely botch the spell and summon a creature from the nether!");
                 }
                 else if (chance < (0.22d + badLuck) / strength) // 20%
@@ -961,13 +962,13 @@ public class IncantationsPlayerListener implements Listener
 	                creature = creatures[i];
 	                passive = true;
                 }
-                
+                //Not sure if this will work, but removed deprecation
                 // Replace entity
                 int oldHealth = ((LivingEntity)entity).getHealth();
                 entity.remove();
                 world.playEffect(eloc, Effect.SMOKE, 1);
-                LivingEntity spawned = world.spawnCreature(eloc, creature);
-                spawned.setHealth(oldHealth);
+                Entity spawned = world.spawnEntity(eloc, creature);
+                ((LivingEntity) spawned).setHealth(oldHealth);
                 
                 // Bad wolves
                 if (spawned instanceof Wolf && !passive)
