@@ -1,5 +1,7 @@
 package me.bhsgoclub.incantations;
 
+import me.bhsgoclub.incantations.Incantations;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.Listener;

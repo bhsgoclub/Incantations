@@ -5,6 +5,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import me.bhsgoclub.incantations.Incantations;
+import me.bhsgoclub.incantations.Spellbook;
+import me.bhsgoclub.incantations.Util;
+
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -934,6 +938,7 @@ public class IncantationsPlayerListener implements Listener
                 if (chance < 0.01d) // 1%
                 {
                 	// You fucked up now..
+                	// lol -drt
 	                creature = CreatureType.GIANT;
 	                player.sendMessage("You completely botch the spell!");
                 }

@@ -1,5 +1,7 @@
 package me.bhsgoclub.incantations;
 
+import me.bhsgoclub.incantations.Incantations;
+
 import org.bukkit.block.Block;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.Listener;
