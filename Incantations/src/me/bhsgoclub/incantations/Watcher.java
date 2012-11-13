@@ -174,7 +174,7 @@ public class Watcher
         
         // Save user config every 5 minutes
         if (currentTick % 10000 == 0)
-        	plugin.users.save();
+        	((World) Incantations.users).save();
         
         // Cleanup
         if (currentTick % 2 == 0 && magicBlocks.size() != 0)

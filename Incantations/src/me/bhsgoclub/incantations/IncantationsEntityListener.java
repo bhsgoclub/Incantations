@@ -8,6 +8,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 
+@SuppressWarnings("unused")
 public class IncantationsEntityListener implements Listener
 {
 	private Incantations plugin;
@@ -17,7 +18,8 @@ public class IncantationsEntityListener implements Listener
         plugin = instance;
     }
 
-    @EventHandler
+    @SuppressWarnings("static-access")
+	@EventHandler
     public void onEntityDamage(EntityDamageEvent event)
     {
         if (event.getEntity() instanceof Player)

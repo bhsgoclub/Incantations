@@ -24,7 +24,7 @@ import org.bukkit.plugin.Plugin;
 public class Incantations extends JavaPlugin
 {	
     public final static Logger log = Logger.getLogger("Minecraft");
-    public final static Watcher watcher = new Watcher(this);
+    public final static Watcher watcher = new Watcher();
     
     public Configuration config;
     public Configuration spells;

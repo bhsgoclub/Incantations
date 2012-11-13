@@ -34,7 +34,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.Listener;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
@@ -56,7 +55,7 @@ public class IncantationsPlayerListener implements Listener
     {
     	Player player = event.getPlayer();
     	
-        if(plugin.watcher.getTicks(player, "SlowFall") > 0)
+        if(Incantations.watcher.getTicks(player, "SlowFall") > 0)
         {
         	//(BUG: CraftBukkit doesn't report the X and Y values of the velocity, so player can only go straigth down when spell is active.) 
         	//FIXED/WORKED AROUND
@@ -114,7 +113,7 @@ public class IncantationsPlayerListener implements Listener
     				return;
     			
     			// Check cooldown
-    			Long cd = plugin.watcher.getCooldown(player, "Spellbook");
+    			Long cd = Incantations.watcher.getCooldown(player, "Spellbook");
     			if (cd > 0)
     			{
     				player.sendMessage("Your spellbook needs to cool down for " + Long.toString(cd / 1000L) + " more seconds");
@@ -126,7 +125,7 @@ public class IncantationsPlayerListener implements Listener
 	    			if (spell != "")
 	    			{
 	    				CastSpell(spell, player);
-	    				plugin.watcher.addCooldown(player, "Spellbook", plugin.config.getInt("Spellbook.Cooldown", 5) * 1000L);
+	    				Incantations.watcher.addCooldown(player, "Spellbook", plugin.config.getInt("Spellbook.Cooldown", 5) * 1000L);
 	    				player.updateInventory();
 	    			}
     			}
@@ -150,16 +149,16 @@ public class IncantationsPlayerListener implements Listener
     public void onPlayerJoin(PlayerJoinEvent event)
     {
     	Player player = event.getPlayer();
-    	plugin.watcher.addPlayer(player);
+    	Incantations.watcher.addPlayer(player);
     	Spellbook spellbook = new Spellbook();
-    	spellbook.StoredSpell = plugin.users.getStringList(player.getName() + ".Spellbook");
+    	spellbook.StoredSpell = Incantations.users.getStringList(player.getName() + ".Spellbook");
     	plugin.spellbookCollection.put(player, spellbook);
     }
     
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event)
     {
-    	plugin.watcher.removePlayer(event.getPlayer());
+    	Incantations.watcher.removePlayer(event.getPlayer());
     	plugin.spellbookCollection.remove(event.getPlayer());
     }
   
@@ -167,7 +166,7 @@ public class IncantationsPlayerListener implements Listener
     public void onPlayerChat(AsyncPlayerChatEvent event)
     {
     	Player player = event.getPlayer();
-    	if (plugin.watcher.getTicks(player, "Silence") > 0)
+    	if (Incantations.watcher.getTicks(player, "Silence") > 0)
     	{
     		player.getServer().broadcastMessage(player.getName() + " drools.");
     		event.setCancelled(true);
@@ -267,7 +266,7 @@ public class IncantationsPlayerListener implements Listener
 	        	
 	        	String nodePath = "Spells." + nodeName + ".";
 		        int cooldown = plugin.spells.getInt(nodePath + "Cooldown", 0);
-		        long currentCooldown = plugin.watcher.getCooldown(player, nodeName);
+		        long currentCooldown = Incantations.watcher.getCooldown(player, nodeName);
 		        if (cooldown > 0 && currentCooldown > 0)
 		        {
 		        	player.sendMessage(message + " is on cooldown for " + Long.toString(currentCooldown / 1000L) + " more seconds."); 
@@ -381,7 +380,7 @@ public class IncantationsPlayerListener implements Listener
 					        	silence(player, strength);
 					        
 					        if (cooldown > 0)
-					        	plugin.watcher.addCooldown(player, nodeName, cooldown * 1000L);
+					        	Incantations.watcher.addCooldown(player, nodeName, cooldown * 1000L);
 		        		}
 		        	}
 		        }
@@ -438,7 +437,7 @@ public class IncantationsPlayerListener implements Listener
     			player.getWorld().dropItem(player.getLocation(), new ItemStack(Material.PAPER, 1));
     			
     			spellbook.StoredSpell.remove(spell);
-    			plugin.users.set(player.getName() + ".Spellbook", spellbook.StoredSpell);
+    			Incantations.users.set(player.getName() + ".Spellbook", spellbook.StoredSpell);
     			
     			if (spellbook.CurrentSpell >= spellbook.StoredSpell.size())
     				spellbook.CurrentSpell = 0;
@@ -446,7 +445,7 @@ public class IncantationsPlayerListener implements Listener
     		else
     		{
     			spellbook.StoredSpell.add(spell);
-    			plugin.users.set(player.getName() + ".Spellbook", spellbook.StoredSpell);
+    			Incantations.users.set(player.getName() + ".Spellbook", spellbook.StoredSpell);
     			//item.setDurability((short)6);
     			player.sendMessage("You inscribe the spell '" + spell + "' in your spellbook.");
     		}
@@ -466,15 +465,15 @@ public class IncantationsPlayerListener implements Listener
     	{
     		Player target = (Player)targets.get(0);
     		
-    		Long duration = plugin.watcher.getTicks(target, "SilenceImmunity");
+    		Long duration = Incantations.watcher.getTicks(target, "SilenceImmunity");
         	if (duration > 0)
         	{
         		player.sendMessage(target.getName() + " is immune for " + Long.toString(duration / 1000L) + " more seconds.");
         	}
     		else
     		{
-	    		plugin.watcher.addTicker(target, "Silence", time, 4);
-	    		plugin.watcher.addTicker(target, "SilenceImmunity", 60000L, 4);
+	    		Incantations.watcher.addTicker(target, "Silence", time, 4);
+	    		Incantations.watcher.addTicker(target, "SilenceImmunity", 60000L, 4);
 	    		target.sendMessage("You have been silenced for " + Long.toString(time / 1000L) + " seconds.");
 	    		player.sendMessage("You silence " + target.getName() + " for " + Long.toString(time / 1000L) + " seconds.");
 	    		player.getWorld().playEffect(target.getLocation(), Effect.SMOKE, 1);
@@ -516,7 +515,7 @@ public class IncantationsPlayerListener implements Listener
 	                    		&& type != Material.BEDROCK && type != Material.CHEST && type != Material.OBSIDIAN
 	                    		&& type != Material.PORTAL && type != Material.ICE && type != Material.FURNACE)
 	                		{
-	                        	plugin.watcher.addBlock(block, 5000L + 1000L * i);
+	                        	Incantations.watcher.addBlock(block, 5000L + 1000L * i);
 	                        	block.setType(Material.AIR);
 	                		}
 	                        
@@ -623,13 +622,13 @@ public class IncantationsPlayerListener implements Listener
         	time = 20000L;
         else// if (strength == 3)
         	time = 30000L;
-    	plugin.watcher.addTicker(player, "WaterWalking", time, 1);
+    	Incantations.watcher.addTicker(player, "WaterWalking", time, 1);
     }
     
     private void slowFall(Player player, int strength)
     {
     	long time = strength * 10000L;
-    	plugin.watcher.addTicker(player, "SlowFall", time, 4);
+    	Incantations.watcher.addTicker(player, "SlowFall", time, 4);
     	player.sendMessage("Your falling speed is decreased for " + Long.toString(time / 1000L) + " seconds.");
     }
     
@@ -640,7 +639,7 @@ public class IncantationsPlayerListener implements Listener
     		frequency = 2;
     	else if (strength == 3)
     		frequency = 1;
-    	plugin.watcher.addTicker(player, "Heal", 20000L, frequency);
+    	Incantations.watcher.addTicker(player, "Heal", 20000L, frequency);
     }
     
     private void breathe(Player player, int strength)
@@ -652,7 +651,7 @@ public class IncantationsPlayerListener implements Listener
         	time = 60000L;
         else
         	time = 30000L;
-    	plugin.watcher.addTicker(player, "Breathe", time, 4);
+    	Incantations.watcher.addTicker(player, "Breathe", time, 4);
     	player.sendMessage("You have infinite air for " + Long.toString(time / 1000L) + " seconds.");
     }
     
@@ -674,7 +673,7 @@ public class IncantationsPlayerListener implements Listener
     private void protect(Player player, int strength)
     {
          Long duration = 1000L + 2000L * strength;
-         plugin.watcher.addTicker(player, "Protect", duration, 4);
+         Incantations.watcher.addTicker(player, "Protect", duration, 4);
          player.sendMessage("You are protected against all damage for " + Long.toString(duration / 1000L) + " seconds.");
     }
     
@@ -791,7 +790,7 @@ public class IncantationsPlayerListener implements Listener
             if (target != player
               && targetBlockLocation.distance(targetLocation) <= 5.0D)
             {
-            	Long duration = plugin.watcher.getTicks(target, "EntombImmunity");
+            	Long duration = Incantations.watcher.getTicks(target, "EntombImmunity");
             	if (duration > 0)
             	{
             		player.sendMessage(target.getName() + " is immune for " + Long.toString(duration / 1000L) + " more seconds.");
@@ -801,7 +800,7 @@ public class IncantationsPlayerListener implements Listener
 	            	player.setNoDamageTicks(20);
 	            	
 	            	// Give target entomb immmunity for 1min
-	            	plugin.watcher.addTicker(target, "EntombImmunity", 60000L, 4);
+	            	Incantations.watcher.addTicker(target, "EntombImmunity", 60000L, 4);
 	    		    
 	    		    int tx = targetLocation.getBlockX();
 	    		    int ty = targetLocation.getBlockY();
@@ -836,7 +835,7 @@ public class IncantationsPlayerListener implements Listener
 	    		    	Material type = tomb[i].getType();
 	    		    	if (type != Material.BEDROCK)
 			        	{
-			        		plugin.watcher.addBlock(tomb[i], time - (long)(Math.random() * 2000.0d));
+			        		Incantations.watcher.addBlock(tomb[i], time - (long)(Math.random() * 2000.0d));
 			        		
 			        		tomb[i].setType(Material.DIRT);
 			        		tomb[i].setType(Material.OBSIDIAN);
@@ -856,7 +855,7 @@ public class IncantationsPlayerListener implements Listener
 	    		    {
 		    		    if (sign[i].getType() == Material.AIR)
 		    		    {
-		    		    	plugin.watcher.addBlock(sign[i], time - 2000L);
+		    		    	Incantations.watcher.addBlock(sign[i], time - 2000L);
 			        		
 			        		sign[i].setType(Material.WALL_SIGN);
 			        		sign[i].setData((byte)(2 + i));
@@ -1083,7 +1082,7 @@ public class IncantationsPlayerListener implements Listener
     				Block current = world.getBlockAt(x, y, z);
     				if (current.getType() == Material.REDSTONE_TORCH_ON)
     				{
-    					plugin.watcher.addBlock(current, 5000L);
+    					Incantations.watcher.addBlock(current, 5000L);
     					current.setType(Material.AIR);
     				}
     				
@@ -1224,7 +1223,7 @@ public class IncantationsPlayerListener implements Listener
                         if (type == Material.ICE)
                         {
                         	// Fix for permanent water
-                        	if (!plugin.watcher.removeBlock(block))
+                        	if (!Incantations.watcher.removeBlock(block))
                         		block.setType(Material.STATIONARY_WATER);
                         }
                         else if (type == Material.SNOW)
@@ -1305,7 +1304,7 @@ public class IncantationsPlayerListener implements Listener
         Material type = block.getType();
         if (type != Material.BEDROCK)
         {
-        	plugin.watcher.addBlock(block, time);
+        	Incantations.watcher.addBlock(block, time);
             block.setType(Material.GLOWSTONE);
         }
     }
@@ -1339,7 +1338,7 @@ public class IncantationsPlayerListener implements Listener
                 Material type = block.getType();
                 if (type == Material.AIR || type == Material.SNOW || type == Material.STATIONARY_WATER || type == Material.WATER)
                 {
-                	plugin.watcher.addBlock(block, 15000L - (y - yorg + 1) * 500L);
+                	Incantations.watcher.addBlock(block, 15000L - (y - yorg + 1) * 500L);
                     block.setType(Material.WEB);
             	}
             }
@@ -1397,7 +1396,7 @@ public class IncantationsPlayerListener implements Listener
         					// When underwater, make a temporary bubble
         					if (type == Material.STATIONARY_WATER || type == Material.WATER)
         					{
-        						plugin.watcher.addBlock(block, 10000L * strength - (y + 1) * 500L);
+        						Incantations.watcher.addBlock(block, 10000L * strength - (y + 1) * 500L);
 	                            block.setType(Material.AIR);
         					}
         				}
@@ -1405,7 +1404,7 @@ public class IncantationsPlayerListener implements Listener
         				{
 	                        if (type == Material.AIR || type == Material.SNOW || type == Material.STATIONARY_WATER || type == Material.WATER)
 	                        {
-	                        	plugin.watcher.addBlock(block, 10000L * strength - (y + 1) * 500L);
+	                        	Incantations.watcher.addBlock(block, 10000L * strength - (y + 1) * 500L);
 	                            block.setType(Material.ICE);
 	                    	}
         				}

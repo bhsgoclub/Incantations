@@ -6,7 +6,6 @@ import org.bukkit.block.Block;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.Listener;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 
 public class IncantationsBlockListener implements Listener
 {
@@ -17,6 +16,7 @@ public class IncantationsBlockListener implements Listener
 		plugin = instance;
 	}
 	
+	@SuppressWarnings("static-access")
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent event)
   	{

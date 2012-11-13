@@ -6,8 +6,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import net.minecraft.server.Item;
-
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -201,7 +199,7 @@ public class Util
     	return result;
     }
     
-    public static void disableStacking(Item item)
+    public static void disableStacking(org.bukkit.entity.Item item)
     {
     	// From Nisovin's bookworm plugin
     	try
