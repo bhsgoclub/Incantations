@@ -81,7 +81,7 @@ public class Incantations extends JavaPlugin
     }
     
     @Override
-    public void onDisable()
+    public static YamlConfiguration loadConfiguration()
     {
     	//watcher.stop();
     	watcher.cleanUp();

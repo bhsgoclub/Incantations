@@ -895,11 +895,11 @@ public class IncantationsPlayerListener implements Listener
     	switch (strength)
     	{
     		case 1:
-    			player.launchProjectile(Egg.class); //What it should be but not sure how to make that work
+    			player.launchProjectile(Egg.class); //What it should be but not sure how to make that work      FIXED-bhs
     			player.sendMessage("You fumble and throw an egg.");
     			break;
     		case 2:
-    			player.launchProjectile(Snowball.class); //What it should be but not sure how to make that work
+    			player.launchProjectile(Snowball.class); //What it should be but not sure how to make that work      Fixed-bhs
     			player.sendMessage("You strain yourself, but you only manage to throw a snowball.");
     			break;
     		case 3:
