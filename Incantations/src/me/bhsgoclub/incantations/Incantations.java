@@ -122,7 +122,7 @@ public class Incantations extends JavaPlugin
 			e.printStackTrace();
 			log.info("[Incantations] Error occured while creating config file: " + e.getMessage());
 		}
-    	config = new Configuration(cfgFile);
+    	config = new YamlConfiguration.loadConfiguration(cfgFile);
     	if (isNew)
     	{
     		this.getConfig().set("General.SpellAnounceLevel", 1);
@@ -159,7 +159,7 @@ public class Incantations extends JavaPlugin
 			e.printStackTrace();
 			log.info("[Incantations] Error occured while creating spell file: " + e.getMessage());
 		}
-    	spells = new Configuration(spellFile);
+    	spells = new YamlConfiguration.loadConfiguration(spellFile);
     	if (isNew)
     	{
     		spells.setProperty("Spells.Lightning.Name", "fulmen");
@@ -264,7 +264,7 @@ public class Incantations extends JavaPlugin
     		spells.setProperty("Spells.Fireball.Cooldown", 0);
     		spells.setProperty("Spells.Fireball.CastItemOnly", false);
     		
-    		spells.setProperty("Spells.Transmute.Name", "transmutare");
+    		spells).setProperty("Spells.Transmute.Name", "transmutare");
     		spells.setProperty("Spells.Transmute.CostMultiplier", 0);
     		spells.setProperty("Spells.Transmute.Master", false);
     		spells.setProperty("Spells.Transmute.Cooldown", 0);

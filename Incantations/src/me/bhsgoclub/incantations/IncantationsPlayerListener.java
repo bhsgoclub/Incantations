@@ -137,7 +137,7 @@ public class IncantationsPlayerListener implements Listener
     			if (++spellbook.CurrentSpell >= spellbook.StoredSpell.size())
     				spellbook.CurrentSpell = 0;
     			
-    			player.sendMessage("You turn a page and ready the '" + spellbook.StoredSpell.get(spellbook.CurrentSpell) + "' spell.");
+    			player.sendMessage(")You turn a page and ready the '" + spellbook.StoredSpell.get(spellbook.CurrentSpell) + "' spell.");
     		}
     		
     	}
