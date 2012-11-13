@@ -23,12 +23,12 @@ import org.bukkit.plugin.Plugin;
 
 public class Incantations extends JavaPlugin
 {	
-    public final Logger log = Logger.getLogger("Minecraft");
-    public final Watcher watcher = new Watcher(this);
+    public final static Logger log = Logger.getLogger("Minecraft");
+    public final static Watcher watcher = new Watcher(this);
     
     public Configuration config;
     public Configuration spells;
-    public Configuration users;
+    public static Configuration users;
     
     public final Hashtable<Player, Spellbook> spellbookCollection = new Hashtable<Player, Spellbook>();
     public final Hashtable<String, String> spellLookup = new Hashtable<String, String>();
@@ -80,7 +80,6 @@ public class Incantations extends JavaPlugin
         log.info("[Incantations] v" + getDescription().getVersion() + " active.");
     }
     
-    @Override
     public static YamlConfiguration loadConfiguration()
     {
     	//watcher.stop();
