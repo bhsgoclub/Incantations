@@ -15,6 +15,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
+import org.bukkit.entity.Egg;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Fireball;
@@ -24,6 +25,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.PigZombie;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Slime;
+import org.bukkit.entity.Snowball;
 import org.bukkit.entity.Spider;
 import org.bukkit.entity.Wolf;
 import org.bukkit.event.block.Action;
@@ -150,7 +152,7 @@ public class IncantationsPlayerListener implements Listener
     	Player player = event.getPlayer();
     	plugin.watcher.addPlayer(player);
     	Spellbook spellbook = new Spellbook();
-    	spellbook.StoredSpell = plugin.users.getStringList(player.getName() + ".Spellbook", new ArrayList<String>());
+    	spellbook.StoredSpell = plugin.users.getStringList(player.getName() + ".Spellbook");
     	plugin.spellbookCollection.put(player, spellbook);
     }
     
@@ -436,7 +438,7 @@ public class IncantationsPlayerListener implements Listener
     			player.getWorld().dropItem(player.getLocation(), new ItemStack(Material.PAPER, 1));
     			
     			spellbook.StoredSpell.remove(spell);
-    			plugin.users.setProperty(player.getName() + ".Spellbook", spellbook.StoredSpell);
+    			plugin.users.set(player.getName() + ".Spellbook", spellbook.StoredSpell);
     			
     			if (spellbook.CurrentSpell >= spellbook.StoredSpell.size())
     				spellbook.CurrentSpell = 0;
@@ -444,7 +446,7 @@ public class IncantationsPlayerListener implements Listener
     		else
     		{
     			spellbook.StoredSpell.add(spell);
-    			plugin.users.setProperty(player.getName() + ".Spellbook", spellbook.StoredSpell);
+    			plugin.users.set(player.getName() + ".Spellbook", spellbook.StoredSpell);
     			//item.setDurability((short)6);
     			player.sendMessage("You inscribe the spell '" + spell + "' in your spellbook.");
     		}
@@ -885,8 +887,7 @@ public class IncantationsPlayerListener implements Listener
     	
     }
     */
-    @SuppressWarnings("deprecation")
-	private void fireball(Player player, int strength)
+    private void fireball(Player player, int strength)
     {
     	Location location = player.getLocation();
         Location target = location.add(location.getDirection().normalize().multiply(2).toLocation(player.getWorld(), location.getYaw(), location.getPitch())).add(0.0D, 1.0D, 0.0D);
