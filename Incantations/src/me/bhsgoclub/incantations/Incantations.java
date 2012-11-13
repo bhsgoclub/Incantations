@@ -323,13 +323,13 @@ public class Incantations extends JavaPlugin
     	else
     		spells.load();
     	
-    	// Parse spell nodes for easy lookup
-    	Map<String, ConfigurationNode> spellNodes = spells.getNodes("Spells");
+    	// Parse spell nodes for easy lookup <<<<AS OF 11/12/02 Temp Disabled>>>>
+    	/*Map<String, ConfigurationNode> spellNodes = spells.getNodes("Spells");
     	for (Map.Entry<String, ConfigurationNode> entry : spellNodes.entrySet())
     	{
     		spellLookup.put(entry.getValue().getString("Name"), entry.getKey());
     	}
-    	
+    	*/
     	// Read or create users file
     	File usersFile = new File(getDataFolder().getPath() + File.separator + "users.yml");
     	try
@@ -339,7 +339,7 @@ public class Incantations extends JavaPlugin
 			e.printStackTrace();
 			log.info("[Incantations] Error occured while creating users file: " + e.getMessage());
 		}
-    	users = new Configuration(usersFile);
+    	users = new YamlConfiguration.loadConfiguration(usersFile);
     	if (isNew)
     	{
     		users.save();
