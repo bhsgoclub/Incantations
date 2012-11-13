@@ -86,7 +86,7 @@ public class Incantations extends JavaPlugin
     	watcher.cleanUp();
     	users.save();
     	
-        log.info("[Incantations] v" + getDescription().getVersion() + " disabled.");
+        log.info("[Incantations]" + " *Tarantallegra* made you dance :P"); // Because we'd rather have funny messages than showing the version.
     }
     
     /*private void setupPermissions()
