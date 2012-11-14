@@ -43,7 +43,7 @@ public class Watcher
     }
     private Map<Player, HashMap<String, TickerInfo>> tickerCollection = new HashMap<Player, HashMap<String, TickerInfo>>();
     
-    public Watcher(Incantations plugin)
+    public Watcher()
     {
     	this.plugin = plugin;
     	lastTime = new Date().getTime();
