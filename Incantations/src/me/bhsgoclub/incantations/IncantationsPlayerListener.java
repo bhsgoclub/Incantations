@@ -10,6 +10,7 @@ import me.bhsgoclub.incantations.Incantations;
 import me.bhsgoclub.incantations.Spellbook;
 import me.bhsgoclub.incantations.Util;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -178,14 +179,14 @@ public class IncantationsPlayerListener implements Listener
     		player.getServer().broadcastMessage(player.getName() + " drools.");
     		event.setCancelled(true);
     	}
-    	else
-    	{
+    	//else
+    	//{
 	    	String message = event.getMessage().trim();
 	    	if (CastSpell(message, player))
 	    		event.setCancelled(true);
-    	}
+    	//}
     	
-    	player.getItemInHand().setDurability((short)1);
+    	// player.getItemInHand().setDurability((short)1);
 	}
     
     private String CleanUp(String message)
@@ -206,7 +207,7 @@ public class IncantationsPlayerListener implements Listener
     
     private Boolean CastSpell(String message, Player player)
     {
-        
+        System.out.println("cast spell");
         File spellsFile = new File(plugin.getDataFolder() + File.separator + "Spells.yml");
         FileConfiguration spells = YamlConfiguration.loadConfiguration(spellsFile);
         
@@ -229,8 +230,11 @@ public class IncantationsPlayerListener implements Listener
         
         // Process spell
         String nodeName = plugin.spellLookup.get(message);
+        Bukkit.getServer().broadcastMessage("node: " + nodeName);
         if (nodeName != null)
         {
+        	System.out.println("yay not null!");
+        	
 			if (player.hasPermission("incantations.spells."))
 			{
 				player.sendMessage("You can't cast that spell.");
