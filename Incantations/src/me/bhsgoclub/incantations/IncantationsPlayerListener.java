@@ -10,8 +10,6 @@ import me.bhsgoclub.incantations.Incantations;
 import me.bhsgoclub.incantations.Spellbook;
 import me.bhsgoclub.incantations.Util;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -174,12 +172,6 @@ public class IncantationsPlayerListener implements Listener
     @EventHandler
     public void onPlayerChat(AsyncPlayerChatEvent event)
     {
-    	File spellsFile = new File(plugin.getDataFolder() + File.separator + "Spells.yml");
-        FileConfiguration spells = YamlConfiguration.loadConfiguration(spellsFile);
-        
-        // Make sure Spells.yml is being read correctly.
-        Bukkit.getServer().broadcastMessage(ChatColor.RED + "" + spells.getInt("Spells.Lightning.CostMultiplier"));
-        
     	Player player = event.getPlayer();
     	if (Incantations.watcher.getTicks(player, "Silence") > 0)
     	{
