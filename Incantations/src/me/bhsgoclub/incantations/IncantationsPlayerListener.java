@@ -230,7 +230,9 @@ public class IncantationsPlayerListener implements Listener
         
         // Process spell
         String nodeName = plugin.spellLookup.get(message);
+        
         Bukkit.getServer().broadcastMessage("node: " + nodeName);
+        
         if (nodeName != null)
         {
         	System.out.println("yay not null!");
