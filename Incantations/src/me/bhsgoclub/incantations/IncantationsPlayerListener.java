@@ -1,5 +1,6 @@
 package me.bhsgoclub.incantations;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,6 +16,8 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Egg;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -43,12 +46,13 @@ import org.bukkit.util.Vector;
 
 public class IncantationsPlayerListener implements Listener
 {
-    private Incantations plugin;
+    public Incantations plugin;
     
     public IncantationsPlayerListener(Incantations instance)
     {
-        plugin = instance;
+        this.plugin = instance;
     }
+    
 
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event)
@@ -104,7 +108,7 @@ public class IncantationsPlayerListener implements Listener
     	ItemStack item = player.getItemInHand();
     	Action action = event.getAction();
     	
-    	if (plugin.config.getBoolean("Spellbook.Enabled", true) && item.getType() == Material.BOOK)
+    	if (plugin.getConfig().getBoolean("Spellbook.Enabled", true) && item.getType() == Material.BOOK)
     	{
     		Spellbook spellbook = plugin.spellbookCollection.get(player);
     		if (action == Action.LEFT_CLICK_BLOCK || action == Action.LEFT_CLICK_AIR)
@@ -125,7 +129,7 @@ public class IncantationsPlayerListener implements Listener
 	    			if (spell != "")
 	    			{
 	    				CastSpell(spell, player);
-	    				Incantations.watcher.addCooldown(player, "Spellbook", plugin.config.getInt("Spellbook.Cooldown", 5) * 1000L);
+	    				Incantations.watcher.addCooldown(player, "Spellbook", plugin.getConfig().getInt("Spellbook.Cooldown", 5) * 1000L);
 	    				player.updateInventory();
 	    			}
     			}
@@ -148,10 +152,13 @@ public class IncantationsPlayerListener implements Listener
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event)
     {
+    	File usersFile = new File(plugin.getDataFolder() + File.separator + "Users.yml");
+        FileConfiguration users = YamlConfiguration.loadConfiguration(usersFile);
+        
     	Player player = event.getPlayer();
     	Incantations.watcher.addPlayer(player);
     	Spellbook spellbook = new Spellbook();
-    	spellbook.StoredSpell = Incantations.users.getStringList(player.getName() + ".Spellbook");
+    	spellbook.StoredSpell = users.getStringList(player.getName() + ".Spellbook");
     	plugin.spellbookCollection.put(player, spellbook);
     }
     
@@ -199,9 +206,13 @@ public class IncantationsPlayerListener implements Listener
     
     private Boolean CastSpell(String message, Player player)
     {
+        
+        File spellsFile = new File(plugin.getDataFolder() + File.separator + "Spells.yml");
+        FileConfiguration spells = YamlConfiguration.loadConfiguration(spellsFile);
+        
         // Check the strength & filter input
         int strength = 1;
-        String superCmd = plugin.config.getString("General.SuperCommand", "magna");
+        String superCmd = plugin.getConfig().getString("General.SuperCommand", "magna");
         if (message.length() > superCmd.length() && message.substring(0, superCmd.length() + 1).toLowerCase().equals(superCmd + " "))
         {
         	strength = 3;
@@ -214,7 +225,7 @@ public class IncantationsPlayerListener implements Listener
         
         message = CleanUp(message);
         
-        String writeCmd = plugin.config.getString("Spellbook.InscriptionCommand", "scripto");
+        String writeCmd = plugin.getConfig().getString("Spellbook.InscriptionCommand", "scripto");
         
         // Process spell
         String nodeName = plugin.spellLookup.get(message);
@@ -245,7 +256,7 @@ public class IncantationsPlayerListener implements Listener
 	        		announceLocal = "§3You raise your hands and forcefully exclaim '§4" + message + "§3'.";
 	            }
 	        	
-	        	int announceLevel = plugin.config.getInt("General.SpellAnounceLevel", 1);
+	        	int announceLevel = plugin.config.getInt("General.SpellAnnounceLevel", 1);
 	        	if (announceLevel < 1)
 	        		player.sendMessage(announceLocal);
 	        	else if (announceLevel == 1)
@@ -265,7 +276,7 @@ public class IncantationsPlayerListener implements Listener
 	        	*/
 	        	
 	        	String nodePath = "Spells." + nodeName + ".";
-		        int cooldown = plugin.spells.getInt(nodePath + "Cooldown", 0);
+		        int cooldown = spells.getInt(nodePath + "Cooldown", 0);
 		        long currentCooldown = Incantations.watcher.getCooldown(player, nodeName);
 		        if (cooldown > 0 && currentCooldown > 0)
 		        {
@@ -273,19 +284,19 @@ public class IncantationsPlayerListener implements Listener
 		        }
 		        else
 		        {
-		        	if (plugin.spells.getBoolean(nodePath + "CastItemOnly", false) && !Util.isPlayerHolding(player, plugin.spells.getInt("General.CastItem", 280)))
+		        	if (spells.getBoolean(nodePath + "CastItemOnly", false) && !Util.isPlayerHolding(player, spells.getInt("General.CastItem", 280)))
 		        	{
 		        		player.sendMessage("You need to hold a book to cast that spell.");
 		        	}
 		        	else
 		        	{
 		        		Boolean canCast = false;
-		        		int costMultiplier = plugin.spells.getInt(nodePath + "CostMultiplier", 1);
+		        		int costMultiplier = spells.getInt(nodePath + "CostMultiplier", 1);
 		        		if (costMultiplier > 0)
 		        		{
 		        			String reagentType;
 		        			int cost;
-		        			if (plugin.spells.getBoolean(nodePath + "Master", false))
+		        			if (spells.getBoolean(nodePath + "Master", false))
 		        			{
 		        				reagentType = "Master";
 		        				cost = costMultiplier;
@@ -293,14 +304,14 @@ public class IncantationsPlayerListener implements Listener
 		        			else
 		        			{
 		        				reagentType = "Regular";
-		        				cost = plugin.config.getInt("Reagents.Level" + Integer.toString(strength), 1 + 2 * (strength - 1)) * costMultiplier;
+		        				cost = plugin.getConfig().getInt("Reagents.Level" + Integer.toString(strength), 1 + 2 * (strength - 1)) * costMultiplier;
 		        			}
 		        			
-	        				Boolean isDye = plugin.config.getBoolean("Reagents." + reagentType + "IsDye", false);
-	        				int material = plugin.config.getInt("Reagents." + reagentType, (isDye ? 4 : 331));
+	        				Boolean isDye = plugin.getConfig().getBoolean("Reagents." + reagentType + "IsDye", false);
+	        				int material = plugin.getConfig().getInt("Reagents." + reagentType, (isDye ? 4 : 331));
 	        				if (!Util.playerSpendReagent(player, isDye, material, cost))
 	    					{
-	        					int lowCost = plugin.config.getInt("Reagents.Level1", 1 * costMultiplier);
+	        					int lowCost = plugin.getConfig().getInt("Reagents.Level1", 1 * costMultiplier);
 	        					if (strength != 1 && Util.playerSpendReagent(player, isDye, material, lowCost))
 	        					{
 	        						player.sendMessage("You need " + Integer.toString(cost) + " " + Util.getItemName(material, isDye) + " to cast the spell at full strength.");
@@ -387,7 +398,7 @@ public class IncantationsPlayerListener implements Listener
 		        return true;
 			}
         }
-        else if (plugin.config.getBoolean("Spellbook.Enabled", true)
+        else if (plugin.getConfig().getBoolean("Spellbook.Enabled", true)
         		&& message.length() > writeCmd.length() && message.substring(0, writeCmd.length() + 1).toLowerCase().equals(writeCmd + " "))
         {
         	if (!player.hasPermission("incantations.spellbook"))
@@ -406,8 +417,12 @@ public class IncantationsPlayerListener implements Listener
     
     private void writeSpell(Player player, String spell)
     {
-		Boolean isDye = plugin.config.getBoolean("Spellbook.WriteReagentIsDye", true);
-		int material = plugin.config.getInt("Spellbook.WriteReagent", 4);
+    	
+    	File usersFile = new File(plugin.getDataFolder() + File.separator + "Users.yml");
+        FileConfiguration users = YamlConfiguration.loadConfiguration(usersFile);
+        
+		Boolean isDye = plugin.getConfig().getBoolean("Spellbook.WriteReagentIsDye", true);
+		int material = plugin.getConfig().getInt("Spellbook.WriteReagent", 4);
 		String nodeName = plugin.spellLookup.get(spell);
 		if (nodeName == null)
 		{
@@ -417,7 +432,7 @@ public class IncantationsPlayerListener implements Listener
     	{
     		player.sendMessage("You need to hold a book to inscribe a spell.");
     	}
-		else if (plugin.spells.getBoolean("Spells." + nodeName + ".Master", false))
+		else if (plugin.getConfig().getBoolean("Spells." + nodeName + ".Master", false))
 		{
 			player.sendMessage("Cannot inscribe master spells.");
 		}
@@ -437,7 +452,7 @@ public class IncantationsPlayerListener implements Listener
     			player.getWorld().dropItem(player.getLocation(), new ItemStack(Material.PAPER, 1));
     			
     			spellbook.StoredSpell.remove(spell);
-    			Incantations.users.set(player.getName() + ".Spellbook", spellbook.StoredSpell);
+    			users.set(player.getName() + ".Spellbook", spellbook.StoredSpell);
     			
     			if (spellbook.CurrentSpell >= spellbook.StoredSpell.size())
     				spellbook.CurrentSpell = 0;
@@ -445,7 +460,7 @@ public class IncantationsPlayerListener implements Listener
     		else
     		{
     			spellbook.StoredSpell.add(spell);
-    			Incantations.users.set(player.getName() + ".Spellbook", spellbook.StoredSpell);
+    			users.set(player.getName() + ".Spellbook", spellbook.StoredSpell);
     			//item.setDurability((short)6);
     			player.sendMessage("You inscribe the spell '" + spell + "' in your spellbook.");
     		}
@@ -459,7 +474,7 @@ public class IncantationsPlayerListener implements Listener
     	// lol
     	long time = strength * 5000L;
     	
-    	List<LivingEntity> targets = Util.getPlayerTarget(player, plugin.config.getInt("General.SpellRange", 50), true);
+    	List<LivingEntity> targets = Util.getPlayerTarget(player, plugin.getConfig().getInt("General.SpellRange", 50), true);
     	
     	if (targets.size() != 0)
     	{
@@ -485,7 +500,7 @@ public class IncantationsPlayerListener implements Listener
     private void _break(Player player, int strength)
     {
     	int radius = 2;
-        Location location = player.getTargetBlock(null, plugin.config.getInt("General.SpellRange", 50)).getLocation();
+        Location location = player.getTargetBlock(null, plugin.getConfig().getInt("General.SpellRange", 50)).getLocation();
         World world = player.getWorld();
         
         for (int i = 0; i < strength; i++)
@@ -556,7 +571,7 @@ public class IncantationsPlayerListener implements Listener
     	
     	ArrayList<Block> activeBlocks = new ArrayList<Block>();
     	
-    	Block targetBlock = player.getTargetBlock(null, plugin.config.getInt("General.SpellRange", 50));
+    	Block targetBlock = player.getTargetBlock(null, plugin.getConfig().getInt("General.SpellRange", 50));
     	int xorg = targetBlock.getX();
         int yorg = targetBlock.getY();
         int zorg = targetBlock.getZ();
@@ -660,7 +675,7 @@ public class IncantationsPlayerListener implements Listener
     	 World world = player.getWorld();
     	 Location origin = player.getLocation();
          
-         Location target = player.getLastTwoTargetBlocks(null, plugin.config.getInt("General.SpellRange", 50)).get(0).getLocation();
+         Location target = player.getLastTwoTargetBlocks(null, plugin.getConfig().getInt("General.SpellRange", 50)).get(0).getLocation();
          world.playEffect(origin, Effect.SMOKE, 1);
          // Disable damage for a second
          player.setNoDamageTicks(20);
@@ -690,10 +705,10 @@ public class IncantationsPlayerListener implements Listener
     	PlayerInventory inventory = player.getInventory();
     	
     	// Gather info about reagents
-    	Boolean regularIsDye = plugin.config.getBoolean("Reagents.RegularIsDye", false);
-    	int regular = plugin.config.getInt("Reagents.Regular", 331);
-    	Boolean masterIsDye = plugin.config.getBoolean("Reagents.MasterIsDye", true);
-    	int master = plugin.config.getInt("Reagents.Master", 4);
+    	Boolean regularIsDye = plugin.getConfig().getBoolean("Reagents.RegularIsDye", false);
+    	int regular = plugin.getConfig().getInt("Reagents.Regular", 331);
+    	Boolean masterIsDye = plugin.getConfig().getBoolean("Reagents.MasterIsDye", true);
+    	int master = plugin.getConfig().getInt("Reagents.Master", 4);
     	
     	// Check if what the player is holding is a reagent
     	PlayerHoldingType holding = PlayerHoldingType.Invalid;
@@ -709,7 +724,7 @@ public class IncantationsPlayerListener implements Listener
 		else if (item.getTypeId() == master)
 			holding = PlayerHoldingType.Master;
     	
-    	int cost = plugin.config.getInt("Reagents.TransmuteCost", 15); 
+    	int cost = plugin.getConfig().getInt("Reagents.TransmuteCost", 15); 
     	
     	if (holding == PlayerHoldingType.Regular)
     	{
@@ -778,7 +793,7 @@ public class IncantationsPlayerListener implements Listener
     	long time = strength * 10000L;
     	
     	// Find target
-    	Block targetBlock = player.getTargetBlock(null, plugin.config.getInt("General.SpellRange", 50));
+    	Block targetBlock = player.getTargetBlock(null, plugin.getConfig().getInt("General.SpellRange", 50));
     	Location targetBlockLocation = targetBlock.getLocation();
     	World world = player.getWorld();
 
@@ -910,7 +925,7 @@ public class IncantationsPlayerListener implements Listener
     
     private void mutate(Player player, int strength)
     {
-        Location location = player.getTargetBlock(null, plugin.config.getInt("General.SpellRange", 50)).getLocation();
+        Location location = player.getTargetBlock(null, plugin.getConfig().getInt("General.SpellRange", 50)).getLocation();
         World world = player.getWorld();
         
         List<Entity> entities = world.getEntities();
@@ -1007,7 +1022,7 @@ public class IncantationsPlayerListener implements Listener
     
     private void lightning(Player player, int strength)
     {
-        Location location = player.getTargetBlock(null, plugin.config.getInt("General.SpellRange", 50)).getLocation();
+        Location location = player.getTargetBlock(null, plugin.getConfig().getInt("General.SpellRange", 50)).getLocation();
         int xorg = location.getBlockX(); int yorg = location.getBlockY(); int zorg = location.getBlockZ();
         World world = player.getWorld();
         world.strikeLightning(location);
@@ -1065,7 +1080,7 @@ public class IncantationsPlayerListener implements Listener
     private void activate(Player player, int strength)
     {
     	World world = player.getWorld();
-    	Block target = player.getTargetBlock(null, plugin.config.getInt("General.SpellRange", 50));
+    	Block target = player.getTargetBlock(null, plugin.getConfig().getInt("General.SpellRange", 50));
     	int tx = target.getX();
     	int ty = target.getY();
     	int tz = target.getZ();
@@ -1109,7 +1124,7 @@ public class IncantationsPlayerListener implements Listener
         	World world = player.getWorld();
         	
         	int radius = 7 * strength;
-            Location location = player.getTargetBlock(null, plugin.config.getInt("General.SpellRange", 50)).getLocation();
+            Location location = player.getTargetBlock(null, plugin.getConfig().getInt("General.SpellRange", 50)).getLocation();
 
             int xorg = location.getBlockX();
             int yorg = location.getBlockY();
@@ -1157,7 +1172,7 @@ public class IncantationsPlayerListener implements Listener
         int radius = 7 * strength;
         
         //HashSet transparent = null;
-        Block block = player.getTargetBlock(null, plugin.config.getInt("General.SpellRange", 50));
+        Block block = player.getTargetBlock(null, plugin.getConfig().getInt("General.SpellRange", 50));
 
         Location origin = block.getLocation();
 
@@ -1194,7 +1209,7 @@ public class IncantationsPlayerListener implements Listener
     private void thaw(Player player, int strength)
     {
         int radius = 5 * strength;
-        Location location = player.getTargetBlock(null, plugin.config.getInt("General.SpellRange", 50)).getLocation();
+        Location location = player.getTargetBlock(null, plugin.getConfig().getInt("General.SpellRange", 50)).getLocation();
 
         int xorg = location.getBlockX();
         int yorg = location.getBlockY();
@@ -1237,7 +1252,7 @@ public class IncantationsPlayerListener implements Listener
     private void freeze(Player player, int strength)
     {
         int radius = 5 * strength;
-        Location location = player.getTargetBlock(null, plugin.config.getInt("General.SpellRange", 50)).getLocation();
+        Location location = player.getTargetBlock(null, plugin.getConfig().getInt("General.SpellRange", 50)).getLocation();
 
         int xorg = location.getBlockX();
         int yorg = location.getBlockY();
@@ -1298,7 +1313,7 @@ public class IncantationsPlayerListener implements Listener
     	else //if (strength == 3)
     		time = 300000L;
     	
-        Block block = player.getLastTwoTargetBlocks(null, plugin.config.getInt("General.SpellRange", 50)).get(0);
+        Block block = player.getLastTwoTargetBlocks(null, plugin.getConfig().getInt("General.SpellRange", 50)).get(0);
         //TODO: Expand based on strength, or replace with portable light
         // Should always be air?
         Material type = block.getType();
@@ -1314,7 +1329,7 @@ public class IncantationsPlayerListener implements Listener
         int length = 5 + 5 * strength;
 
         Vector vector = player.getEyeLocation().getDirection().normalize();
-        Location location = player.getTargetBlock(null, plugin.config.getInt("General.SpellRange", 50)).getLocation();
+        Location location = player.getTargetBlock(null, plugin.getConfig().getInt("General.SpellRange", 50)).getLocation();
 
         int xorg = location.getBlockX();
         int yorg = location.getBlockY();

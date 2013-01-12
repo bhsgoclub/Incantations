@@ -208,7 +208,7 @@ public class Util
             try
             {
 	            // attempt to make books with different data values stack separately
-	            Field field1 = net.minecraft.server.Item.class.getDeclaredField("bj");
+	            Field field1 = net.minecraft.server.v1_4_6.Item.class.getDeclaredField("bj");
 	            if (field1.getType() == boolean.class)
 	            {
                     field1.setAccessible(true);
@@ -220,7 +220,7 @@ public class Util
             }
             if (!ok) {
                 // otherwise limit stack size to 1
-                Field field2 = net.minecraft.server.Item.class.getDeclaredField("maxStackSize");
+                Field field2 = net.minecraft.server.v1_4_6.Item.class.getDeclaredField("maxStackSize");
                 field2.setAccessible(true);
                 field2.setInt(item, 1);
             }

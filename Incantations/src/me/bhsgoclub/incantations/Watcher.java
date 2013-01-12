@@ -16,7 +16,8 @@ import org.bukkit.entity.Player;
 public class Watcher
   implements Runnable
 {	
-    private Incantations plugin;
+    public Incantations plugin;
+    Incantations incClass = new Incantations();
     
     // Timing values
     private long lastTime;// = new Date().getTime();
@@ -174,7 +175,7 @@ public class Watcher
         
         // Save user config every 5 minutes
         if (currentTick % 10000 == 0)
-        	((World) Incantations.users).save();
+        	plugin.saveConfig();
         
         // Cleanup
         if (currentTick % 2 == 0 && magicBlocks.size() != 0)
@@ -218,7 +219,7 @@ public class Watcher
         		cd.put(spell, duration);
         		if (duration <= 0)
         		{
-        			String spellName = plugin.spells.getString("Spells." + spell + ".Name");
+        			String spellName = plugin.spellMap.get("Spells." + spell + ".Name");
         			if (spellName == null)
         				spellName = spell;
         			
@@ -258,7 +259,7 @@ public class Watcher
             		{
             			if (player != null && player.isOnline())
             			{
-            				String spellName = plugin.spells.getString("Spells." + spell + ".Name");
+                			String spellName = plugin.spellMap.get("Spells." + spell + ".Name");
             				if (spellName != null)
             					player.sendMessage(spellName + " wore off.");
             			}
