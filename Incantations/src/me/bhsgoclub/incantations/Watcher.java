@@ -13,8 +13,7 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
-public class Watcher
-  implements Runnable
+public class Watcher implements Runnable
 {	
     public Incantations plugin;
     Incantations incClass = new Incantations();
@@ -25,6 +24,13 @@ public class Watcher
     private final long step = 250L;
     private float intermediateStep = 0.0f;
     
+    /**
+     * All maps in one spot.
+     */
+    private Map<Block, BlockInfo> magicBlocks = new HashMap<Block, BlockInfo>();
+    private Map<Player, HashMap<String, Long>> cooldownCollection = new HashMap<Player, HashMap<String, Long>>();
+    private Map<Player, HashMap<String, TickerInfo>> tickerCollection = new HashMap<Player, HashMap<String, TickerInfo>>();
+
     // Holds all magically created blocks that need to be cleaned up after a while
     private class BlockInfo
 	{
@@ -32,9 +38,7 @@ public class Watcher
 	    public Material original;// = Material.AIR;
 	    public byte data;
 	}
-    private Map<Block, BlockInfo> magicBlocks = new HashMap<Block, BlockInfo>();
     
-    private Map<Player, HashMap<String, Long>> cooldownCollection = new HashMap<Player, HashMap<String, Long>>();
     
     private class TickerInfo
     {
@@ -42,7 +46,6 @@ public class Watcher
     	public Location origin;
     	public int frequency;
     }
-    private Map<Player, HashMap<String, TickerInfo>> tickerCollection = new HashMap<Player, HashMap<String, TickerInfo>>();
     
     public Watcher(Incantations plugin)
     {

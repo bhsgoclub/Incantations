@@ -10,6 +10,7 @@ import me.bhsgoclub.incantations.Incantations;
 import me.bhsgoclub.incantations.Spellbook;
 import me.bhsgoclub.incantations.Util;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -172,6 +173,7 @@ public class IncantationsPlayerListener implements Listener
     @EventHandler
     public void onPlayerChat(AsyncPlayerChatEvent event)
     {
+    	Bukkit.getServer().broadcastMessage("chatevent");
     	Player player = event.getPlayer();
     	if (Incantations.watcher.getTicks(player, "Silence") > 0)
     	{

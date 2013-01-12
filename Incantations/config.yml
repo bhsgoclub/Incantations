@@ -1,0 +1,23 @@
+# Incantations by bhsgoclub
+# Updated by drtshock
+# Visit www.dev.bukkit.org/server-mods/incantations for updates and information
+General:
+  SpellAnnounceLevel: 1
+  SpellRage: 50
+  SuperCommand: magna
+  CastItem: 280
+Reagents:
+  RegularIsDye: false
+  Regular: 331
+  MasterIsDye: true
+  Master: 4
+  TrasmuteCost: 16
+  Level1: 1
+  Level2: 3
+  Level3: 5
+Spellbook:
+  Enabled: true
+  InscriptionCommand: 'scripto'
+  WriteReagentIsDye: true
+  WriteReagent: 4
+  Cooldown: 5
