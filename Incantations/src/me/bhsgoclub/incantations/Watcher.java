@@ -145,6 +145,7 @@ public class Watcher implements Runnable
     public Long getTicks(Player player, String spell)
     {
     	Map<String, TickerInfo> playerTicks = tickerCollection.get(player);
+    	// WHY DO YOU ERROR?!?!?
     	TickerInfo info = playerTicks.get(spell);
     	if (info == null)
     		return 0L;
