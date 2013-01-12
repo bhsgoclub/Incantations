@@ -17,31 +17,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class Incantations extends JavaPlugin {
 	static Watcher watcher = new Watcher(null);
 	public File folder = getDataFolder();
-
-	/*
-	 * public YamlConfiguration config; public YamlConfiguration spells; public
-	 * static YamlConfiguration users;
-	 */
+	
 	public final Hashtable<Player, Spellbook> spellbookCollection = new Hashtable<Player, Spellbook>();
 	public final Hashtable<String, String> spellLookup = new Hashtable<String, String>();
-	
-
-	/*
-	 * public PermissionHandler permissions; public Boolean usePermissions =
-	 * false; NOT NEEDED
-	 */
-
-	/*
-	 * public enum spellNames { Bubble("sphaera"), Lightning("fulmen"),
-	 * SlowFall("tarduscado"), Heal("remedium"), Blink("transulto"),
-	 * Breathe("respiro"), Freeze("frigidus"), Thaw("concalesco"),
-	 * Extinguish("extinguo"), Rain("pluvia"), Storm("tempestas"),
-	 * Clear("sereno"), Mutate("mutatio"), Wall("clausus"), Replenish("repleo"),
-	 * Protect("tueri"), Fireball("ignifera"), Write("scripto"),
-	 * Transmute("transmutare"), Entomb("sepulcrum"), GlassToIce("glacia"),
-	 * Light("lux"), WaterWalking("superaquas"); private spellNames(String name)
-	 * { this.name = name; } public String name; }
-	 */
 	public Map<String, String> spellMap;
 
 	public void onEnable() {
@@ -49,9 +27,6 @@ public class Incantations extends JavaPlugin {
 
 		loadFiles();
 		loadListeners();
-		//setupConfig();
-		//setupSpells();
-		//setupUsers();
 		startMetrics();
 	}
 	

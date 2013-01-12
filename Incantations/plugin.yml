@@ -1,7 +1,6 @@
 name: Incantations
 main: me.bhsgoclub.incantations.Incantations
 version: 1.0
-# (due to taking so long im starting with the minecraft build  its with)
 authors: ['bhsgoclub', 'drtshock']
 description: Spoken word magic. Adds true Incantations to your server.
 
