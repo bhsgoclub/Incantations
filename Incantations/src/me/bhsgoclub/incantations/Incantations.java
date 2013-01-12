@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Hashtable;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,11 +19,9 @@ public class Incantations extends JavaPlugin {
 	
 	public final Hashtable<Player, Spellbook> spellbookCollection = new Hashtable<Player, Spellbook>();
 	public final Hashtable<String, String> spellLookup = new Hashtable<String, String>();
-	public Map<String, String> spellMap;
+	public HashMap<String, String> spellMap = new HashMap<String, String>();
 
 	public void onEnable() {
-		spellMap = new HashMap<String, String>();
-
 		loadFiles();
 		loadListeners();
 		startMetrics();
