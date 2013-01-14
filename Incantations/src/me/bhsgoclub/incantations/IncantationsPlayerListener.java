@@ -11,6 +11,7 @@ import me.bhsgoclub.incantations.Spellbook;
 import me.bhsgoclub.incantations.Util;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -229,19 +230,15 @@ public class IncantationsPlayerListener implements Listener
         String writeCmd = plugin.getConfig().getString("Spellbook.InscriptionCommand", "scripto");
         
         // Process spell
-        String nodeName = plugin.spellLookup.get(message);
+        String nodeName = spells.getString("spells.lightning.name");
         
         Bukkit.getServer().broadcastMessage("node: " + nodeName);
         
         if (nodeName != null)
         {
         	System.out.println("yay not null!");
-        	
-			if (player.hasPermission("incantations.spells."))
-			{
-				player.sendMessage("You can't cast that spell.");
-			}
-			else
+
+			if(player.hasPermission("incantations.spells"))
 			{
 	        	// Announce the spell
 	        	String announce;
@@ -280,7 +277,7 @@ public class IncantationsPlayerListener implements Listener
 	        	else
 	        		player.getServer().broadcastMessage(announce);
 	        	
-	        	String nodePath = "Spells." + nodeName + ".";
+	        	String nodePath = "spells." + nodeName + ".";
 		        int cooldown = spells.getInt(nodePath + "Cooldown", 0);
 		        long currentCooldown = Incantations.watcher.getCooldown(player, nodeName);
 		        if (cooldown > 0 && currentCooldown > 0)
@@ -344,55 +341,55 @@ public class IncantationsPlayerListener implements Listener
 					        else if (nodeName.equals("Escape"))
 					            escape(player);
 					            */
-					        else if (nodeName.equals("Replenish"))
+					        else if (nodeName.equals("replenish"))
 					            replenish(player, strength);
-					        else if (nodeName.equals("Bubble"))
+					        else if (nodeName.equals("bubble"))
 					            bubble(player, strength);
-					        else if (nodeName.equals("Lightning"))
+					        else if (nodeName.equals("lightning"))
 					            lightning(player, strength);
-					        else if (nodeName.equals("Light"))
+					        else if (nodeName.equals("light"))
 					            light(player, strength);
-					        else if (nodeName.equals("Heal"))
+					        else if (nodeName.equals("heal"))
 					        	heal(player, strength);
-					        else if (nodeName.equals("Blink"))
+					        else if (nodeName.equals("blink"))
 					        	blink(player);
-					        else if (nodeName.equals("Breathe"))
+					        else if (nodeName.equals("breathe"))
 					        	breathe(player, strength);
-					        else if (nodeName.equals("Freeze"))
+					        else if (nodeName.equals("freeze"))
 					            freeze(player, strength);
-					        else if (nodeName.equals("Thaw"))
+					        else if (nodeName.equals("thaw"))
 					            thaw(player, strength);
-					        else if (nodeName.equals("Extinguish"))
+					        else if (nodeName.equals("extinguish"))
 					            extinguish(player, strength);
-					        else if (nodeName.equals("Rain"))
+					        else if (nodeName.equals("rain"))
 					            rain(player);
-					        else if (nodeName.equals("Storm"))
+					        else if (nodeName.equals("storm"))
 					            storm(player);
-					        else if (nodeName.equals("Clear"))
+					        else if (nodeName.equals("clear"))
 					            clear(player);
-					        else if (nodeName.equals("Mutate"))
+					        else if (nodeName.equals("mutate"))
 					            mutate(player, strength);
-					        else if (nodeName.equals("Activate"))
+					        else if (nodeName.equals("activate"))
 					            activate(player, strength);
-					        else if (nodeName.equals("Fireball"))
+					        else if (nodeName.equals("fireball"))
 					        	fireball(player, strength);
 					        /*
 					        else if (message.equals("pulsus":
 					            Pulsus(strength, ev);
 					        */
-					        else if (nodeName.equals("SlowFall"))
+					        else if (nodeName.equals("slowFall"))
 					        	slowFall(player, strength);
-					        else if (nodeName.equals("Protect"))
+					        else if (nodeName.equals("protect"))
 					            protect(player, strength);
-					        else if (nodeName.equals("WaterWalking"))
+					        else if (nodeName.equals("waterwalking"))
 					        	waterWalking(player,strength);
-					        else if (nodeName.equals("Transmute"))
+					        else if (nodeName.equals("transmute"))
 					        	transmute(player);
-					        else if (nodeName.equals("Launch"))
+					        else if (nodeName.equals("launch"))
 					        	launch(player, strength);
-					        else if (nodeName.equals("Break"))
+					        else if (nodeName.equals("break"))
 					        	_break(player, strength);
-					        else if (nodeName.equals("Silence"))
+					        else if (nodeName.equals("silence"))
 					        	silence(player, strength);
 					        
 					        if (cooldown > 0)
@@ -401,6 +398,11 @@ public class IncantationsPlayerListener implements Listener
 		        	}
 		        }
 		        return true;
+			}
+			else
+			{
+				player.sendMessage(ChatColor.RED + "You don't have permission to cast that.");
+				return false;
 			}
         }
         else if (plugin.getConfig().getBoolean("Spellbook.Enabled", true)
