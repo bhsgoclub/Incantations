@@ -1,157 +1,157 @@
-Spells:
-  Lightning:
-    Name: fulmen
-    CostMultiplier: 1
-    Master: false
-    Cooldown: 5
-    CastItemOnly: false
-  Bubble:
-    Name: sphaera
-    CostMultiplier: 1
-    Master: false
-    Cooldown: 30
-    CastItemOnly: false
-  SlowFall:
-    Name: tarduscado
-    CostMultiplier: 1
-    Master: false
-    Cooldown: 0
-    CastItemOnly: false
-  Heal:
-    Name: remedium
-    CostMultiplier: 1
-    Master: false
-    Cooldown: 0
-    CastItemOnly: false
-  Blink:
-    Name: transulto
-    CostMultiplier: 1
-    Master: false
-    Cooldown: 30
-    CastItemOnly: false
-  Breathe:
-    Name: respiro
-    CostMultiplier: 1
-    Master: false
-    Cooldown: 0
-    CastItemOnly: false
-  Freeze:
-    Name: frigidus
-    CostMultiplier: 1
-    Master: false
-    Cooldown: 0
-    CastItemOnly: false
-  Thaw:
-    Name: concalesco
-    CostMultiplier: 1
-    Master: false
-    Cooldown: 0
-    CastItemOnly: false
-  Extinguish:
-    Name: extinguo
-    CostMultiplier: 1
-    Master: false
-    Cooldown: 0
-    CastItemOnly: false
-  Rain:
-    Name: pluvia
-    CostMultiplier: 1
-    Master: true
-    Cooldown: 0
-    CastItemOnly: false
-  Storm:
-    Name: tempestas
-    CostMultiplier: 1
-    Master: true
-    Cooldown: 0
-    CastItemOnly: false
-  Clear:
-    Name: sereno
-    CostMultiplier: 1
-    Master: true
-    Cooldown: 0
-    CastItemOnly: false
-  Mutate:
-    Name: mutatio
-    CostMultiplier: 1
-    Master: false
-    Cooldown: 0
-    CastItemOnly: false
-  Wall:
-    Name: clausus
-    CostMultiplier: 1
-    Master: false
-    Cooldown: 30
-    CastItemOnly: false
-  Replenish:
-    Name: repleo
-    CostMultiplier: 1
-    Master: false
-    Cooldown: 0
-    CastItemOnly: false
-  Protect:
-    Name: tueri
-    CostMultiplier: 1
-    Master: false
-    Cooldown: 30
-    CastItemOnly: false
-  Fireball:
-    Name: ignifera
-    CostMultiplier: 1
-    Master: false
-    Cooldown: 0
-    CastItemOnly: false
-  Transmute:
-    Name: transmutare
-    CostMultiplier: 0
-    Master: false
-    Cooldown: 0
-    CastItemOnly: false
-  Entomb:
-    Name: sepulcrum
-    CostMultiplier: 1
-    Master: false
-    Cooldown: 0
-    CastItemOnly: false
-  GlassToIce:
-    Name: glacia
-    CostMultiplier: 1
-    Master: false
-    Cooldown: 0
-    CastItemOnly: false
-  Light:
-    Name: lux
-    CostMultiplier: 1
-    Master: false
-    Cooldown: 0
-    CastItemOnly: false
-  WaterWalking:
-    Name: superaquas
-    CostMultiplier: 1
-    Master: false
-    Cooldown: 0
-    CastItemOnly: false
-  Launch:
-    Name: jaceo
-    CostMultiplier: 1
-    Master: false
-    Cooldown: 5
-    CastItemOnly: false
-  Break:
-    Name: ruptura
-    CostMultiplier: 1
-    Master: false
-    Cooldown: 10
-    CastItemOnly: false
-  Activate:
-    Name: tincidunt
-    CostMultiplier: 1
-    Master: false
-    Cooldown: 0
-    CastItemOnly: false
-  Silence:
-    Name: silentium
-    CostMultiplier: 1
-    Master: false
-    Cooldown: 30
-    CastItemOnly: false
+spells:
+  lightning:
+    name: fulmen
+    costmultiplier: 1
+    master: false
+    cooldown: 5
+    castitemonly: false
+  bubble:
+    name: sphaera
+    costmultiplier: 1
+    master: false
+    cooldown: 30
+    castitemonly: false
+  slowfall:
+    name: tarduscado
+    costmultiplier: 1
+    master: false
+    cooldown: 0
+    castitemonly: false
+  heal:
+    name: remedium
+    costmultiplier: 1
+    master: false
+    cooldown: 0
+    castitemonly: false
+  blink:
+    name: transulto
+    costmultiplier: 1
+    master: false
+    cooldown: 30
+    castitemonly: false
+  breathe:
+    name: respiro
+    costmultiplier: 1
+    master: false
+    cooldown: 0
+    castitemonly: false
+  freeze:
+    name: frigidus
+    costmultiplier: 1
+    master: false
+    cooldown: 0
+    castitemonly: false
+  thaw:
+    name: concalesco
+    costmultiplier: 1
+    master: false
+    cooldown: 0
+    castitemonly: false
+  extinguish:
+    name: extinguo
+    costmultiplier: 1
+    master: false
+    cooldown: 0
+    castitemonly: false
+  rain:
+    name: pluvia
+    costmultiplier: 1
+    master: true
+    cooldown: 0
+    castitemonly: false
+  storm:
+    name: tempestas
+    costmultiplier: 1
+    master: true
+    cooldown: 0
+    castitemonly: false
+  clear:
+    name: sereno
+    costmultiplier: 1
+    master: true
+    cooldown: 0
+    castitemonly: false
+  mutate:
+    name: mutatio
+    costmultiplier: 1
+    master: false
+    cooldown: 0
+    castitemonly: false
+  wall:
+    name: clausus
+    costmultiplier: 1
+    master: false
+    cooldown: 30
+    castitemonly: false
+  replenish:
+    name: repleo
+    costmultiplier: 1
+    master: false
+    cooldown: 0
+    castitemonly: false
+  protect:
+    name: tueri
+    costmultiplier: 1
+    master: false
+    cooldown: 30
+    castitemonly: false
+  fireball:
+    name: ignifera
+    costmultiplier: 1
+    master: false
+    cooldown: 0
+    castitemonly: false
+  transmute:
+    name: transmutare
+    costmultiplier: 0
+    master: false
+    cooldown: 0
+    castitemonly: false
+  entomb:
+    name: sepulcrum
+    costmultiplier: 1
+    master: false
+    cooldown: 0
+    castitemonly: false
+  glasstoice:
+    name: glacia
+    costmultiplier: 1
+    master: false
+    cooldown: 0
+    castitemonly: false
+  light:
+    name: lux
+    costmultiplier: 1
+    master: false
+    cooldown: 0
+    castitemonly: false
+  waterwalking:
+    name: superaquas
+    costmultiplier: 1
+    master: false
+    cooldown: 0
+    castitemonly: false
+  launch:
+    name: jaceo
+    costmultiplier: 1
+    master: false
+    cooldown: 5
+    castitemonly: false
+  break:
+    name: ruptura
+    costmultiplier: 1
+    master: false
+    cooldown: 10
+    castitemonly: false
+  activate:
+    name: tincidunt
+    costmultiplier: 1
+    master: false
+    cooldown: 0
+    castitemonly: false
+  silence:
+    name: silentium
+    costmultiplier: 1
+    master: false
+    cooldown: 30
+    castitemonly: false
