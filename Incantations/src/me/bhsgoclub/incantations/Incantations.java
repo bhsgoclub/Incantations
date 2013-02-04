@@ -9,6 +9,7 @@ import java.util.Hashtable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -17,6 +18,7 @@ public class Incantations extends JavaPlugin
 {
 	static Watcher watcher = new Watcher(null);
 	public File folder = getDataFolder();
+	Crafting crafting = new Crafting();
 	
 	public final Hashtable<Player, Spellbook> spellbookCollection = new Hashtable<Player, Spellbook>();
 	public final Hashtable<String, String> spellLookup = new Hashtable<String, String>();
@@ -26,6 +28,7 @@ public class Incantations extends JavaPlugin
 		loadFiles();
 		loadListeners();
 		startMetrics();
+		crafting.loadRecipes();
 	}
 	
 	public void loadListeners()
@@ -193,6 +196,15 @@ public class Incantations extends JavaPlugin
 		{
 			log.log(Level.INFO, "[Incantations] users file found.");
 		}
+	}
+	
+	public String title()
+	{
+		return ChatColor.BLUE + "[" + ChatColor.WHITE + "Incantations" + ChatColor.BLUE + "]" + ChatColor.WHITE + ": ";
+	}
+	public String noPerm()
+	{
+		return this.title() + "You don't have permission to use this.";
 	}
 }  
  

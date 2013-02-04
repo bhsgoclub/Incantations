@@ -190,7 +190,7 @@ public class IncantationsPlayerListener implements Listener
     	// player.getItemInHand().setDurability((short)1);
 	}
     
-    private String CleanUp(String message)
+    public String CleanUp(String message)
     {
         String output = "";
         
@@ -206,7 +206,7 @@ public class IncantationsPlayerListener implements Listener
         return output.toLowerCase();
     }
     
-    private Boolean CastSpell(String message, Player player)
+    public Boolean CastSpell(String message, Player player)
     {
         System.out.println("cast spell");
         File spellsFile = new File(plugin.getDataFolder() + File.separator + "Spells.yml");
@@ -422,7 +422,7 @@ public class IncantationsPlayerListener implements Listener
         
     }
     
-    private void writeSpell(Player player, String spell)
+    public void writeSpell(Player player, String spell)
     {
     	
     	File usersFile = new File(plugin.getDataFolder() + File.separator + "Users.yml");
@@ -476,7 +476,7 @@ public class IncantationsPlayerListener implements Listener
 		
     }
     
-    private void silence(Player player, int strength)
+    public void silence(Player player, int strength)
     {
     	// lol
     	long time = strength * 5000L;
@@ -504,7 +504,7 @@ public class IncantationsPlayerListener implements Listener
     	
     }
     
-    private void _break(Player player, int strength)
+    public void _break(Player player, int strength)
     {
     	int radius = 2;
         Location location = player.getTargetBlock(null, plugin.getConfig().getInt("General.SpellRange", 50)).getLocation();
@@ -560,7 +560,7 @@ public class IncantationsPlayerListener implements Listener
         
     }
     
-    private void launch(Player player, int strength)
+    public void launch(Player player, int strength)
     {
     	List<LivingEntity> targets = Util.getPlayerTarget(player, 10.0D);
     	float force = 1.0f + (float)strength / 5.0f;
@@ -570,7 +570,7 @@ public class IncantationsPlayerListener implements Listener
     	}
     }
     
-    private void glassToIce(Player player, int strength)
+    public void glassToIce(Player player, int strength)
     {
     	World world = player.getWorld();
     	
@@ -635,7 +635,7 @@ public class IncantationsPlayerListener implements Listener
         
     }
     
-    private void waterWalking(Player player, int strength)
+    public void waterWalking(Player player, int strength)
     {
     	long time;
     	if (strength == 1)
@@ -647,14 +647,14 @@ public class IncantationsPlayerListener implements Listener
     	Incantations.watcher.addTicker(player, "WaterWalking", time, 1);
     }
     
-    private void slowFall(Player player, int strength)
+    public void slowFall(Player player, int strength)
     {
     	long time = strength * 10000L;
     	Incantations.watcher.addTicker(player, "SlowFall", time, 4);
     	player.sendMessage("Your falling speed is decreased for " + Long.toString(time / 1000L) + " seconds.");
     }
     
-    private void heal(Player player, int strength)
+    public void heal(Player player, int strength)
     {
     	int frequency = 4;
     	if (strength == 2)
@@ -664,7 +664,7 @@ public class IncantationsPlayerListener implements Listener
     	Incantations.watcher.addTicker(player, "Heal", 20000L, frequency);
     }
     
-    private void breathe(Player player, int strength)
+    public void breathe(Player player, int strength)
     {
     	long time;
     	if (strength == 3)
@@ -677,7 +677,7 @@ public class IncantationsPlayerListener implements Listener
     	player.sendMessage("You have infinite air for " + Long.toString(time / 1000L) + " seconds.");
     }
     
-    private void blink(Player player)
+    public void blink(Player player)
     {
     	 World world = player.getWorld();
     	 Location origin = player.getLocation();
@@ -692,7 +692,7 @@ public class IncantationsPlayerListener implements Listener
          world.playEffect(target, Effect.SMOKE, 1);
     }
     
-    private void protect(Player player, int strength)
+    public void protect(Player player, int strength)
     {
          Long duration = 1000L + 2000L * strength;
          Incantations.watcher.addTicker(player, "Protect", duration, 4);
@@ -705,7 +705,7 @@ public class IncantationsPlayerListener implements Listener
 		Regular,
 		Master
 	}
-    private void transmute(Player player)
+    public void transmute(Player player)
     {
     	ItemStack item = player.getItemInHand();
     	int amount = item.getAmount();
@@ -795,7 +795,7 @@ public class IncantationsPlayerListener implements Listener
     	
     }
     
-    private void entomb(Player player, int strength)
+    public void entomb(Player player, int strength)
     {
     	long time = strength * 10000L;
     	
@@ -903,12 +903,12 @@ public class IncantationsPlayerListener implements Listener
         
     }
     /*
-    private void escape(Player player)
+    public void escape(Player player)
     {
     	
     }
     */
-    private void fireball(Player player, int strength)
+    public void fireball(Player player, int strength)
     {
     	Location location = player.getLocation();
         Location target = location.add(location.getDirection().normalize().multiply(2).toLocation(player.getWorld(), location.getYaw(), location.getPitch())).add(0.0D, 1.0D, 0.0D);
@@ -930,7 +930,7 @@ public class IncantationsPlayerListener implements Listener
     	
     }
     
-    private void mutate(Player player, int strength)
+    public void mutate(Player player, int strength)
     {
         Location location = player.getTargetBlock(null, plugin.getConfig().getInt("General.SpellRange", 50)).getLocation();
         World world = player.getWorld();
@@ -1020,14 +1020,14 @@ public class IncantationsPlayerListener implements Listener
         }
     }
   /*
-	private void Domus(String[] components, PlayerChatEvent ev)
+	public void Domus(String[] components, PlayerChatEvent ev)
 	{
 		if (PlayerSpendReagent(ev.getPlayer(), Material.BOOK, 1))
 			ev.getPlayer().teleport(ev.getPlayer().getWorld().getSpawnLocation());
 	}
    */
     
-    private void lightning(Player player, int strength)
+    public void lightning(Player player, int strength)
     {
         Location location = player.getTargetBlock(null, plugin.getConfig().getInt("General.SpellRange", 50)).getLocation();
         int xorg = location.getBlockX(); int yorg = location.getBlockY(); int zorg = location.getBlockZ();
@@ -1072,19 +1072,19 @@ public class IncantationsPlayerListener implements Listener
         
     }
 
-    private void clear(Player player)
+    public void clear(Player player)
     {
         player.getWorld().setStorm(false);
         player.getWorld().setThundering(false);
     }
 
-    private void storm(Player player)
+    public void storm(Player player)
     {
         player.getWorld().setStorm(true);
         player.getWorld().setThundering(true);
     }
     
-    private void activate(Player player, int strength)
+    public void activate(Player player, int strength)
     {
     	World world = player.getWorld();
     	Block target = player.getTargetBlock(null, plugin.getConfig().getInt("General.SpellRange", 50));
@@ -1115,13 +1115,13 @@ public class IncantationsPlayerListener implements Listener
     	
     }
     
-    private void rain(Player player)
+    public void rain(Player player)
     {
         player.getWorld().setStorm(true);
         player.getWorld().setThundering(false);
     }
     
-    private void extinguish(Player player, int strength)
+    public void extinguish(Player player, int strength)
     {
         player.setFireTicks(0);
         player.getWorld().playEffect(player.getLocation(), Effect.EXTINGUISH, 1);
@@ -1171,7 +1171,7 @@ public class IncantationsPlayerListener implements Listener
         
     }
 
-    private void replenish(Player player, int strength)
+    public void replenish(Player player, int strength)
     {
     	if (!player.isOp())
     		return;
@@ -1213,7 +1213,7 @@ public class IncantationsPlayerListener implements Listener
         }
     }
     
-    private void thaw(Player player, int strength)
+    public void thaw(Player player, int strength)
     {
         int radius = 5 * strength;
         Location location = player.getTargetBlock(null, plugin.getConfig().getInt("General.SpellRange", 50)).getLocation();
@@ -1256,7 +1256,7 @@ public class IncantationsPlayerListener implements Listener
         }
     }
     
-    private void freeze(Player player, int strength)
+    public void freeze(Player player, int strength)
     {
         int radius = 5 * strength;
         Location location = player.getTargetBlock(null, plugin.getConfig().getInt("General.SpellRange", 50)).getLocation();
@@ -1310,7 +1310,7 @@ public class IncantationsPlayerListener implements Listener
         }
     }
     
-    private void light(Player player, int strength)
+    public void light(Player player, int strength)
     {
     	long time;
     	if (strength == 1)
@@ -1331,7 +1331,7 @@ public class IncantationsPlayerListener implements Listener
         }
     }
     
-    private void wall(Player player, int strength)
+    public void wall(Player player, int strength)
     {
         int length = 5 + 5 * strength;
 
@@ -1367,7 +1367,7 @@ public class IncantationsPlayerListener implements Listener
         }
     }
     
-    private void bubble(Player player, int strength)
+    public void bubble(Player player, int strength)
     {
     	World world = player.getWorld();
     	
@@ -1437,7 +1437,7 @@ public class IncantationsPlayerListener implements Listener
         
     }
     
-    private Boolean IsFull(int x, int y, int z, double offset, double radiusSq)
+    public Boolean IsFull(int x, int y, int z, double offset, double radiusSq)
     {
 		x -= offset;
 		y -= offset;
